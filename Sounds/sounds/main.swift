@@ -56,6 +56,11 @@ struct Sounder: ParsableCommand {
             help: "the number of sounds")
     var counter: Int
 
+    @Argument(
+        parsing: .remaining,
+        help: "the names of sounds animal")
+    var names: [String]
+
     func run() throws {
         if verbose {
             print("start sounds")
@@ -84,8 +89,10 @@ struct Sounder: ParsableCommand {
         for _ in 0 ..< counter {
             outputs += sounds + " "
         }
-        print(outputs)
 
+        for name in names {
+            print("\(name): \(outputs)")
+        }
         if verbose {
             print("end sounds")
         }
