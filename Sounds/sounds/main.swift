@@ -23,8 +23,54 @@ struct Sounder: ParsableCommand {
         helpNames: [.long, .short]
     )
 
+    enum AnimalKind: EnumerableFlag {
+        case cat
+        case dog
+        case mouse
+        static func name(for value: Sounder.AnimalKind) -> NameSpecification {
+            switch value {
+                case .cat:
+                    return [.customShort("c"), .long]
+
+                case .dog:
+                    return [.customShort("d"), .long]
+                case .mouse:
+                    return [.customShort("m"), .long]
+            }
+        }
+    }
+
+    @Flag(help: "show detail logs")
+    var verbose: Bool
+
+    @Flag(help: "specify the kind of animal")
+    var animalKind: AnimalKind?
+
+    
+
     func run() throws {
-        print("Hello, World!")
+        if verbose {
+            print("start sounds")
+        }
+
+        let sounds: String
+        if let animalKind = animalKind {
+            switch animalKind {
+                case .cat:
+                    sounds = "Meow Meow"
+                case .dog:
+                    sounds = "bow-wow bow-wow"
+                case .mouse:
+                    sounds = "squeak squeak"
+            }
+        } else {
+            sounds = "Meow Meow"
+        }
+        print(sounds)
+
+        if verbose {
+            print("end sounds")
+        }
     }
 }
 
