@@ -9,6 +9,13 @@
 import Foundation
 import ArgumentParser
 
+struct RuntimeError: Error, CustomStringConvertible {
+    var description: String
+    init(_ description: String) {
+        self.description = description
+    }
+}
+
 struct Sounder: ParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "sounds",
@@ -52,6 +59,14 @@ struct Sounder: ParsableCommand {
     func run() throws {
         if verbose {
             print("start sounds")
+        }
+
+        if counter < 0 {
+            throw(RuntimeError("Counter must be positive."))
+        }
+
+        if counter > 10 {
+            throw(RuntimeError("Too many counter. Max 10."))
         }
 
         let sounds: String
